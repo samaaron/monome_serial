@@ -5,7 +5,7 @@ module MonomeSerial
     class Toggle
       def initialize
         monome_io_file = "/dev/ttyUSB0"
-        @monome = MonomeSerial::MonomeCommunicator.new(monome_io_file)
+        @monome = MonomeSerial.detect_monome
         @light_lit = Hash.new(false)
       end
 

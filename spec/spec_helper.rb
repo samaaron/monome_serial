@@ -1,4 +1,5 @@
 #require tosca
+require 'rubygems'
 require 'monome_serial'
 
 
