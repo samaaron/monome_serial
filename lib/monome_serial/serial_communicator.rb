@@ -8,7 +8,8 @@ module MonomeSerial
       begin
         raise IOError  unless File.exists?(tty_path)
         raise RuntimeError unless (RUBY_VERSION.split('.').join.to_i >= 191) && (Object.const_defined?("RUBY_ENGINE") && Object.const_get("RUBY_ENGINE") == "ruby")
-        require 'termios'
+        require 'monome_serial/serial_communicator/real_communicator'
+
         return RealCommunicator.new(tty_path)
       rescue IOError
         puts "Supplied path tty IO file isn't valid, loading up DummyCommunicator instead of a real one" unless suppress_warnings
