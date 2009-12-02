@@ -14,13 +14,11 @@ module MonomeSerial
   class NoMonomesFoundError < StandardError ; end
 
   def self.detect_monome
-    ttys = find_ttys
-    if ttys.empty? then
-      raise NoMonomesFoundError,
-      "No monomes were found connected to your computer"
-    end
+    detect_monomes.first
+  end
 
-    MonomeCommunicator.new(ttys.first)
+  def self.detect_monomes
+    find_ttys.map{|tty| MonomeCommunicator.new(tty)}
   end
 
   def self.find_ttys
@@ -30,6 +28,13 @@ module MonomeSerial
     end
 
     files.flatten!
+
+    if files.empty? then
+      raise NoMonomesFoundError,
+      "No monomes were found connected to your computer"
+    end
+
+    files
   end
 end
 
