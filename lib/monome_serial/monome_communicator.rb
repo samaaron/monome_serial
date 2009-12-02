@@ -84,7 +84,7 @@ module MonomeSerial
     end
 
     def is_real?
-      MonomeSerial::SerialCommunicator::RealCommunicator ===  @communicator
+      @communicator && @communicator.class != MonomeSerial::SerialCommunicator::DummyCommunicator
     end
   end
 end
