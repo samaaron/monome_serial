@@ -14,7 +14,7 @@ begin
     gemspec.homepage = "http://sam.aaron.name/projects/ruby_monome_serial.html"
     gemspec.authors = ["Sam Aaron"]
     gemspec.add_dependency 'activesupport', '>= 2.3.4'
-    gemspec.add_dependency 'fcntl'
+    gemspec.add_dependency 'arika-ruby-termios', '>= 0.9.6'
   end
 rescue LoadError
   puts "Oops, Jeweler isn't available. Install it with: gem install jeweler"
@@ -22,7 +22,6 @@ end
 
 desc "Run the specs under spec"
 Spec::Rake::SpecTask.new do |t|
-  require 'rubygems'
   t.spec_opts = ['--options', File.dirname(__FILE__) + "/spec/spec.opts"]
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.fail_on_error = false

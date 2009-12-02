@@ -8,11 +8,19 @@ require 'monome_serial/serial_communicator/dummy_communicator'
 require 'monome_serial/serial_communicator/binary_patterns/series'
 require 'monome_serial/serial_communicator/binary_patterns/fourtyh'
 require 'monome_serial/monome_communicator'
+require 'monome_serial/examples/toggle'
 
 module MonomeSerial
-  def self.detect_monome
+  class NoMonomesFoundError < StandardError ; end
 
-    MonomeCommunicator.new(monome_io_file)
+  def self.detect_monome
+    ttys = find_ttys
+    if ttys.empty? then
+      raise NoMonomesFoundError,
+      "No monomes were found connected to your computer"
+    end
+
+    MonomeCommunicator.new(ttys.first)
   end
 
   def self.find_ttys
