@@ -15,18 +15,13 @@ Dependencies:
 Quickstart
 ==========
 
-* Install the gem:
-  gem install monome_serial
+ Install the gem:
+ gem install monome_serial
 
-* At the time of publication, I didn't find that the termios gem (arika-ruby-termios) compiled correctly. I ended up having to pull a zip of the project from Github and installing it manually (follow the Readme). To see if it works for you try requiring 'termios' in irb...
+ At the time of publication, I didn't find that the termios gem (arika-ruby-termios) compiled correctly. I ended up having to pull a zip of the project from Github and installing it manually (follow the Readme). To see if it works for you try requiring 'termios' in irb...
 
-* Make sure you have the ftdi drivers installed for your OS
+ Make sure you have the ftdi drivers installed for your OS
 
-* Plug in your monome
+ Plug in your monome
 
-* Try the example toggle app: ruby examples/toggler.rb
-
-
-
-
-
+ Try the example toggle app: ruby examples/toggler.rb
