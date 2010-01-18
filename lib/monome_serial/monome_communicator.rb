@@ -9,7 +9,8 @@ module MonomeSerial
 
     attr_reader :communicator, :serial, :protocol
 
-    def initialize(tty_path, protocol="series")
+    def initialize(tty_path, protocol="series", opts = {})
+      opts.reverse_merge! :brightness => 10, :ignore_intro => false
       raise ArgumentError, "Unexpected protocol type: #{protocol}. Expected 40h or series" unless protocol == "40h" || protocol == "series"
 
       @protocol = protocol
@@ -29,6 +30,8 @@ module MonomeSerial
       else
         extend SerialCommunicator::BinaryPatterns::Series
       end
+      run_intromation unless opts[:ignore_intro]
+      self.brightness = opts[:brightness]
     end
 
     def illuminate_lamp(x,y)
@@ -85,6 +88,30 @@ module MonomeSerial
 
     def is_real?
       @communicator && @communicator.class != MonomeSerial::SerialCommunicator::DummyCommunicator
+    end
+
+    private
+
+    def run_intromation
+      extinguish_all
+
+      brightness = 1
+      illuminate_all
+
+      sleep_times = [ 0, 0.072, 0.1030, 0.1159, 0.1236, 0.1287, 0.1324, 0.1352, 0.1373, 0.1390, 0.1404, 0.1416, 0.1426, 0.1435, 0.1442, 0.1448, 0.1278 ]
+
+      (1..16).each do |brightness|
+        self.brightness = brightness
+        sleep_time = (sleep_times[16 - brightness]) / 4.0
+        sleep sleep_time
+      end
+
+      (1..16).to_a.reverse.each do |brightness|
+        self.brightness = brightness
+        sleep_time = (sleep_times[brightness]) / 10.0
+        sleep sleep_time
+      end
+      extinguish_all
     end
   end
 end

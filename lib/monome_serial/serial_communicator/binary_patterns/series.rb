@@ -272,9 +272,10 @@ module MonomeSerial
 
 
         def brightness_pattern(brightness)
-          raise ArgumentError, "Expecting a brightness between 0 and 15 inclusively, got #{brightness}" unless brightness >= 0 && brightness <= 15
+          raise ArgumentError, "Expecting brightness to be a Fixnum. You gave me a #{brightness.class}." unless Fixnum === brightness
+          raise ArgumentError, "Expecting a brightness between 1 and 16 inclusively, got #{brightness}" unless brightness >= 1 && brightness <= 16
 
-          "1010" + INT_TO_BIN_STRING[brightness]
+          "1010" + INT_TO_BIN_STRING[brightness - 1]
         end
 
       end
