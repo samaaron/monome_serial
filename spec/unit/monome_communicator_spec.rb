@@ -7,7 +7,7 @@ describe MonomeCommunicator do
   end
 
   it "should raise an error when not initializing with a correct protocol name" do
-    lambda{MonomeCommunicator.new('/blah', "phonycol" )}.should raise_error(ArgumentError)
+    lambda{MonomeCommunicator.new('/blah', :protocol => "phonycol" )}.should raise_error(ArgumentError)
   end
 
   describe "A default monome with an unusual tty_path" do
@@ -30,7 +30,7 @@ describe MonomeCommunicator do
 
   describe "A default monome with the 40h protocol" do
     before(:each) do
-      @monome = MonomeCommunicator.new('/foo/tty.usbserial-m256-203', '40h')
+      @monome = MonomeCommunicator.new('/foo/tty.usbserial-m256-203', :protocol => '40h')
     end
 
     it "should raise an exception when a communicating method is used" do
@@ -57,27 +57,27 @@ describe MonomeCommunicator do
         @monome.extinguish_all
       end
 
-      it "should send the correct binary string to set the brightness to 0" do
+      it "should send the correct binary string to set the brightness to 1" do
         @comm.should_receive(:write).with(["10100000"])
-        @monome.brightness = 0
+        @monome.brightness = 1
       end
 
-      it "should send the correct binary string to set the brightness to 5" do
+      it "should send the correct binary string to set the brightness to 6" do
         @comm.should_receive(:write).with(["10100101"])
-        @monome.brightness = 5
+        @monome.brightness = 6
       end
 
-      it "should send the correct binary string to set the brightness to 15" do
+      it "should send the correct binary string to set the brightness to 16" do
         @comm.should_receive(:write).with(["10101111"])
-        @monome.brightness = 15
+        @monome.brightness = 16
       end
 
       it "should raise an error if a negative brightness is set" do
-        lambda{@monome.brightness = -1}.should raise_error(ArgumentError)
+        lambda{@monome.brightness = 0}.should raise_error(ArgumentError)
       end
 
       it "should raise an error if a brightness is set to an integer greater than 15" do
-        lambda{@monome.brightness = 16}.should raise_error(ArgumentError)
+        lambda{@monome.brightness = 17}.should raise_error(ArgumentError)
       end
     end
   end

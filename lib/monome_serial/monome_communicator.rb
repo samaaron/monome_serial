@@ -9,11 +9,11 @@ module MonomeSerial
 
     attr_reader :communicator, :serial, :protocol
 
-    def initialize(tty_path, protocol="series", opts = {})
-      opts.reverse_merge! :brightness => 10, :ignore_intro => false
-      raise ArgumentError, "Unexpected protocol type: #{protocol}. Expected 40h or series" unless protocol == "40h" || protocol == "series"
+    def initialize(tty_path, opts = {})
+      opts.reverse_merge! :brightness => 10, :ignore_intro => false, :protocol => 'series'
+      raise ArgumentError, "Unexpected protocol type: #{opts[:protocol]}. Expected 40h or series" unless ['40h', 'series'].include?(opts[:protocol])
 
-      @protocol = protocol
+      @protocol = opts[:protocol]
 
       #try to pull out serial for the monome represented by
       #this tty_path
@@ -30,8 +30,11 @@ module MonomeSerial
       else
         extend SerialCommunicator::BinaryPatterns::Series
       end
-      run_intromation unless opts[:ignore_intro]
-      self.brightness = opts[:brightness]
+
+      if is_real?
+        run_intromation unless opts[:ignore_intro]
+        self.brightness = opts[:brightness]
+      end
     end
 
     def illuminate_lamp(x,y)
