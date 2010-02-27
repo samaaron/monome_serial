@@ -10,8 +10,12 @@ module MonomeSerial
     attr_reader :communicator, :serial, :protocol
 
     def initialize(tty_path, opts = {})
-      opts.reverse_merge! :brightness => 10, :ignore_intro => false, :protocol => 'series'
-      raise ArgumentError, "Unexpected protocol type: #{opts[:protocol]}. Expected 40h or series" unless ['40h', 'series'].include?(opts[:protocol])
+
+      opts = { :brightness => 10, :ignore_intro => false, :protocol => 'series' }.merge(opts)
+
+      unless ['40h', 'series'].include?(opts[:protocol])
+        raise ArgumentError, "Unexpected protocol type: #{opts[:protocol]}. Expected 40h or series"
+      end
 
       @protocol = opts[:protocol]
 
