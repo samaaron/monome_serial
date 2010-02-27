@@ -14,7 +14,7 @@ begin
     gemspec.homepage = "http://sam.aaron.name/projects/ruby_monome_serial.html"
     gemspec.authors = ["Sam Aaron"]
     gemspec.add_dependency 'activesupport', '>= 2.3.4'
-    gemspec.add_dependency 'arika-ruby-termios', '>= 0.9.6'
+    gemspec.add_dependency 'ruby-termios', '>= 0.9.6'
   end
 rescue LoadError
   puts "Oops, Jeweler isn't available. Install it with: gem install jeweler"
